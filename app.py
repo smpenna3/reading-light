@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, abort, jsonify, url_for, redirect
 from flask_socketio import SocketIO
-from flask_cors import CORS
 import os
 import time
 import traceback
@@ -9,20 +8,20 @@ import traceback
 from LED import LED
 
 #################################################################################################
-debugSet = True
-external = False
-port = ''
+debugSet = False
+external = True
+arduino_port = '/dev/ttyACM0'
+port = 8000
 
 #################################################################################################
 
 
 app = Flask(__name__)
-CORS(app)
 socketio = SocketIO(app, async_mode='threading')
 
 
 # Setup LED
-led = LED(port)
+led = LED(arduino_port)
 
 
 @app.route('/')
@@ -44,6 +43,6 @@ def off():
 
 if(__name__ == '__main__'):
     if(external):
-        socketio.run(app, debug=debugSet, host='0.0.0.0')
+        socketio.run(app, debug=debugSet, port=port, host='0.0.0.0')
     else:
-        socketio.run(app, debug=debugSet)
+        socketio.run(app, port=port, debug=debugSet)

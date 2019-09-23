@@ -19,8 +19,4 @@ class LED:
 
 
     def off(self):
-        # Generate command
-        command = "0, 0, 0"
-
-        # Send command
-        self.ser.write(command.encode())
+        self.color(0, 0, 0)
