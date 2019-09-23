@@ -16,3 +16,11 @@ class LED:
         
         # Send command
         self.ser.write(command.encode())
+
+
+    def off(self):
+        # Generate command
+        command = "0, 0, 0"
+
+        # Send command
+        self.ser.write(command.encode())

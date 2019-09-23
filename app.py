@@ -5,13 +5,24 @@ import os
 import time
 import traceback
 
+# Import the LED Control
+from LED import LED
+
 #################################################################################################
 debugSet = True
 external = False
+port = ''
+
+#################################################################################################
+
 
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, async_mode='threading')
+
+
+# Setup LED
+led = LED(port)
 
 
 @app.route('/')
@@ -22,11 +33,13 @@ def home():
 @socketio.on('on', namespace='/led')
 def on():
     print("Turn on")
+    led.color(255, 20, 20)
 
 
 @socketio.on('off', namespace='/led')
 def off():
     print("Turn off")
+    led.off()
 
 
 if(__name__ == '__main__'):
