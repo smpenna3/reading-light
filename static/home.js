@@ -1,9 +1,11 @@
-var socket = io.connect('http://localhost:5000/led');
+var socket = io.connect(location.origin + '/led');
 
-function on(){
-    socket.emit('on', led);
+document.getElementById("on").onclick = function on(){
+    socket.emit('on');
+    console.log("On command sent");
 }
 
-function off(){
-    socket.emit('off', led);
+document.getElementById("off").onclick = function off(){
+    socket.emit('off');
+    console.log("Off command sent");
 }
