@@ -41,6 +41,15 @@ def off():
     led.off()
 
 
+@socketio.on('rgb', namespace='/led')
+def rgb(colors):
+    print("RGB: " + str(colors))
+    red = colors['red']
+    green = colors['green']
+    blue = colors['blue']
+    led.color(red, green, blue)
+
+
 if(__name__ == '__main__'):
     if(external):
         socketio.run(app, debug=debugSet, port=port, host='0.0.0.0')
