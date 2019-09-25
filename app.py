@@ -3,9 +3,15 @@ from flask_socketio import SocketIO
 import os
 import time
 import traceback
+import argparse
 
 # Import the LED Control
-from LED import LED
+from LED import LED, LED_test
+
+# Parse Arguments
+parser = argparse.ArgumentParser(description="Reading Light")
+parser.add_argument('-a', '--arduino', action='store_false')
+args = parser.parse_args()
 
 #################################################################################################
 debugSet = False
@@ -21,7 +27,10 @@ socketio = SocketIO(app, async_mode='threading')
 
 
 # Setup LED
-led = LED(arduino_port)
+if(args.arduino):
+    led = LED(arduino_port)
+else:
+    led = LED_test()
 
 
 @app.route('/')
@@ -44,9 +53,9 @@ def off():
 @socketio.on('rgb', namespace='/led')
 def rgb(colors):
     print("RGB: " + str(colors))
-    red = colors['red']
-    green = colors['green']
-    blue = colors['blue']
+    red = colors.get('red', 0)
+    green = colors.get('green', 0)
+    blue = colors.get('blue', 0)
     led.color(red, green, blue)
 
 

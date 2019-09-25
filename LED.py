@@ -20,3 +20,11 @@ class LED:
 
     def off(self):
         self.color(0, 0, 0)
+
+class LED_test:
+    def __init__(self):
+        pass
+    def color(self, red, green, blue):
+        print("Changed LEDS to ("+str(red)+","+str(green)+","+str(blue)+")")
+    def off(self):
+        print("Changed LEDS to off")
